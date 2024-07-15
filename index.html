@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Document</title>
+
+  <!-- Link watercss -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2.1.1/out/water.min.css">
+
+  <!-- Link fontawesome -->
+  <script src="https://kit.fontawesome.com/52a540c863.js" crossorigin="anonymous"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/js/all.min.js" integrity="sha256-ShtKaqIDL7Iv2AJqPcHXS/s6kjSFvbypN5bRIlKTIk4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/fontawesome.min.css" integrity="sha256-E3sc886pqK23iENDqaXd3fQoD1kVP3TceC+3978NBRk=" crossorigin="anonymous"> -->
+
+
+  <!-- Link leaflet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
+
+  <!-- Leaflet search extension -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@sjaakp/leaflet-search@1.0.2/dist/leaflet-search.min.js"></script> -->
+
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+  
+  <script src="assets/js/leaflet-icons.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/mapstuff.js"></script>
+  <script src="assets/js/routes.js"></script>
+
+
+</head>
+<body>
+
+  <h1> Location Picker </h1>
+
+    <div class="mapArea">
+      <div id="mainMap"></div>
+    </div>
+    <br>
+    <div class="selectedLocations" id="poiTable">
+      <table>
+        <thead>
+          <tr>
+            <th>Icon</th>
+            <th>Type</th>
+            <th>Username</th>
+            <th>Place</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody id="poiTableBody">
+          <tr>
+            <td colspan="6" style="text-align: center;">
+              <span style="color: var(--text-muted)">-------------------- No Data -------------------- </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="actionButtons">
+        <button onclick="showPersonDialog()">
+          Add Person&ensp;<i class="fa-regular fa-square-plus"></i>
+        </button>
+
+        <button onclick="plotMostEfficientRoute()">
+          Calculate Routes &ensp;<i class="fa-solid fa-map-location-dot"></i></i>
+        </button>
+
+        <button onclick="clearRoutes()">
+          Clear Routes &ensp;<i class="fa-solid fa-eraser"></i></i>
+        </button>
+      </div>
+
+    </div>
+
+
+
+    <dialog id="addPersonDialog">
+      <!-- add close button on top right -->
+      <div class="closeButton">
+        <i class="fa-solid fa-times fa-lg" onclick="addPersonDialog.close()"></i>
+      </div>
+
+        
+      <div class="personInput">
+        <p>
+          <i class="fa-solid fa-user-astronaut fa-2xl dialogIcon"></i>
+          <!-- <i class="fa-solid fa-road fa-2xl dialogIcon"></i>
+          <i class="fa-solid fa-wand-sparkles fa-2xl dialogIcon"></i> -->
+        </p>
+        <h2>Add a person</h2>
+
+        <div class="inputGroup">
+          <div class="inputSection">
+            <label for="personName">Your Name</label>
+            <input type="text" id="personName" placeholder="Meaows the cat">
+          </div>
+  
+          <div class="inputSection">
+            <label for="arriveBefore">Arriving before</label>
+            <input type="time" id="arriveBefore">
+          </div>
+
+          <div class="inputSection">
+            <label for="pickupLocationSearch">Pickup Location</label>
+            <input type="text" id="pickupLocationSearch" placeholder="Search for a location">
+            <div id="pickupLocationResults" class="searchResults">
+              <p style="text-align:center; color:var(--text-muted)">Start typing to search</p>
+            </div>
+          </div>
+
+          <div class="inputSection">
+            <label for="dropoffLocationSearch">Dropoff Location</label>
+            <input type="text" id="dropoffLocationSearch" placeholder="Search for a location">
+            <div id="dropoffLocationResults" class="searchResults">
+              <p style="text-align:center; color:var(--text-muted)">Start typing to search</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mapArea">
+          <div id="map"></div>
+          <p id="mapDesc">Route for illustration purposes only, and may be changed during the trip as appropriate.</p>
+          <!-- <span class="stepDescription" id="pickerStepDescription">Step 0 of 0</span> -->
+        </div>
+
+        <button onclick="addPerson()">Add&ensp;<i class="fa-solid fa-square-plus"></i></button>
+      </div>
+    </dialog>
+
+    
+    <br><br>
+</body>
+</html>

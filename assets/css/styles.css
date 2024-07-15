@@ -1,0 +1,192 @@
+:root {
+  --background-another: color-mix(in srgb, var(--background-alt), var(--background) 60%); 
+}
+
+#map { 
+  height: 50vh;
+  width:  70vw;
+  max-width: 800px;
+}
+
+#mainMap {
+  height: 60vh;
+  width: 100%;
+}
+.mapArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Only display one column */
+  flex-direction: column;
+}
+/* 
+.searchArea {
+  background-color: var(--background-alt)
+} */
+.searchBar {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  /* Adjust element inside to fill whole space */
+}
+
+.dialogTitle {
+  display: flex;
+  column-gap: 1em;
+}
+
+.searchBar > input {
+  flex: 1;
+}
+
+.dialogTitle > h2 {
+  display: block;
+  flex: 1;
+}
+
+button {
+  margin-right: 0;
+}
+
+.searchResults {
+  /* padding: 0 1em; */
+  margin-right: 6px;
+  border-radius: 6px;
+  /* margin-bottom: 1em; */
+  height: 5em;
+  max-height: 20vh;
+  overflow-x: ellipsis;
+  overflow-y: scroll;
+  background-color: color-mix(in srgb, var(--background), var(--focus) 2%);
+}
+
+.searchResults > div {
+  list-style-type: none;
+  padding: 0;
+  background-color: var(--background);
+  margin: auto 1em;
+  /* border: 1px solid var(--border); */
+  padding: 0.2em;
+  /* border-radius: 0.1em; */
+  cursor: pointer;
+}
+
+.searchResults > div:nth-child(odd) {
+  background-color: var(--background-alt);
+}
+.searchResults > div:nth-child(even) {
+  background-color: var(--background-another);
+}
+
+.searchResults > div:hover {
+  color: var(--text-bright);
+}
+
+.searchResultTextSub {
+  /* font-size: 0.8em; */
+  color: var(--text-muted);
+}
+
+input, button {
+  display: inline-block;
+}
+table {
+  table-layout:auto
+}
+
+
+td > img {
+  width: 24px;
+}
+.closeButton {
+  float: right; 
+  padding-right: 0.4em;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: var(--text-bright);
+}
+
+.closeButton > i {
+  position: absolute;
+}
+
+
+.dialogIcon {
+  padding-top: 0.5em;
+  /* display: inline; */
+}
+
+.clickableIcon {
+  padding-top: 1em;
+  padding-right: 0.2em;
+  cursor: pointer;
+}
+
+.clickableIcon:hover {
+  color: var(--text-bright);
+}
+
+#addPersonDialog {
+  padding: 1em;
+  max-width: 800px;
+  width: 100%
+}
+.personInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 0.5em;
+}
+
+.stepDescription {
+  color: var(--text-muted);
+}
+
+.backForwardButtons {
+  color: orange;
+}
+
+@media (prefers-color-scheme: dark) {
+  .backForwardButtons {
+    color: khaki
+  }
+}
+
+
+.actionButtons {
+  display: block;
+  margin: auto;
+  width: fit-content;
+}
+
+.actionButtons > button {
+  margin: 0.5em;
+  width: 12em;
+  box-sizing: border-box;
+  padding: 0.5em 0.3em;
+}
+/* dialog {
+  pass
+} */
+
+.inputGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em;
+  width: 95%;
+  padding: 2em;
+}
+
+.inputSection {
+  
+  display: flex;
+  flex-direction: column;
+
+}
+
+#mapDesc {
+  color: var(--text-muted);
+}
