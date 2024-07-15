@@ -173,7 +173,7 @@ function placeSearchedPOI(place, as, zoomLevel = 15) {
     console.log("Removing previous search marker...")
     sm.remove()
   }
-  console.log(`Placing search marker at ${place.lat}, ${place.lon} (${place.display_name})`)
+  console.log(`Placing search marker at ${place.lat}, ${place.lng} (${place.name})`)
   // console.log(place)
   
   if (other_sml) {

@@ -29,9 +29,12 @@ function showPersonDialog() {
   map.invalidateSize()
 }
 
-async function addPerson() {
-  let personNameEl = document.getElementById('personName');
-  let username = personNameEl.value;
+async function addPerson(username=null) {
+
+  if (username == null) {
+    var personNameEl = document.getElementById('personName');
+    var username = personNameEl.value;
+  }
 
   let smlp = searchMarkerLocations['pickup']
   let smld = searchMarkerLocations['dropoff']
@@ -41,24 +44,66 @@ async function addPerson() {
     return
   }
   else if (poiData.filter(poi => poi.user == username).length > 0) {
-    alert("This person already exists in the list.")
-    return
-    
+    let confirmationResult = confirm("This person already exists in the list. Overwrite?")
+
+    if (!confirmationResult) { 
+      console.log("User cancelled the operation.")
+      return
+    }
+    console.warn(`Person ${username} already exists in the list. Overwriting`)
   }
   else if (smlp == null || smld == null) {
     alert("Please select a pickup and dropoff location.")
     return
   }
   console.log(`Adding a person ${username}`)
-  
-  poiData.push({ 'type': 'pickup', 'user': username, ...smlp });
-  poiData.push({ 'type': 'dropoff', 'user': username, ...smld });
-  //personNameEl.value = ''
 
+  let newStuff = [{ 'type': 'pickup', 'user': username, ...smlp }, { 'type': 'dropoff', 'user': username, ...smld }]
+  for (let newPoiData of newStuff) {
+    let { user, type } = newPoiData
+    let existingIndex = poiData.findIndex((item) => (item.user === user && item.type === type));
+    // console.log(existingIndex)
+    if (existingIndex !== -1) {
+      poiData[existingIndex] = newPoiData
+      console.warn(`Overwriting existing ${type} location for ${user}`)
+    }
+    else {
+      poiData.push(newPoiData)
+      console.log(`Added ${type} location for ${user} to poiData`)
+    }
+  }
+
+  //personNameEl.value = ''
   document.getElementById('addPersonDialog').close()
   // pickStartingLocation(username)
   await poiToTable()
 } 
+
+function populateInfo(poi, as) {
+  document.getElementById('personName').value = poi.user
+  // console.log(`${as}LocationSearch`)
+  document.getElementById(`${as}LocationSearch`).value = poi.name
+
+  placeSearchedPOI(poi, as=as)
+  // searchMarkers[as].setLatLng([poi.lat, poi.lng])
+  // searchMarker[as].bindPopup(sml.name).openPopup()
+  // searchMarkerLocations[as] = { lat: poi.lat, lng: poi.lng, name: poi.name }
+
+}
+
+
+function editPerson(username) {
+  console.log(`Editing person ${username}`)
+  document.getElementById('addPersonDialog').showModal()
+  map.invalidateSize()
+  let personData = poiData.filter(poi => poi.user == username)
+  for (let poi of personData) {
+    let as = poi.type
+    populateInfo(poi, as)
+  }
+
+
+}
 
 
 // function pickStartingLocation(username) {
@@ -124,6 +169,7 @@ async function poiToTable() {
         <td>${poi.name}</td>
         <td>${poi.lat}</td>
         <td>${poi.lng}</td>
+        <td><i class="fa-solid fa-pen-to-square fa-lg clickableIcon" style="color: var(--links);" onclick="editPerson('${poi.user}')"></i></td>
       </tr>`;
   }
   destinationTableData += `</table>`
@@ -152,7 +198,6 @@ async function updateMainMap() {
     marker.bindPopup(`${capitalize(poi.type)} ${poi.user} at <i>${poi.name}</i>`).openPopup()
     mainMapMarkers.push(marker)
   }
-
   await plotMostEfficientRoute()
 
 }

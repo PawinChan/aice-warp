@@ -50,11 +50,11 @@ function lonLatToCoords(lonLat) {
 function getDistance(data) {
   try {
     let result = data.features[0].properties.summary.duration
-    console.log(result)
+    // console.log(`Distance: ${result}`)
     return result //data.features[0].properties.summary.duration;
   } catch (error) {
     console.error(error); // Log the error for debugging
-    return 100000; // Maximum approximated distance
+    return 800000; // Maximum approximated distance
   }
 }
 
@@ -69,13 +69,17 @@ async function fetchRoute(points) {
   // const response = await session.post(`https://${OPENROUTE_URL}/v2/directions/driving-car/geojson`, JSON.stringify(args));
   const response = await fetch(
     `https://${OPENROUTE_URL}/v2/directions/driving-car/geojson`,
-    { method: 'POST', headers: headers, body: JSON.stringify(args), cache: "force-cache" },
+    { method: 'POST', headers: headers, body: JSON.stringify(args), cache: "force-cache"},
   );
   const result = await response.json()
   return result
 }
 
 async function findMostEfficientRoute(poiData) {
+  if (poiData.length > 8) {
+    alert("Too many points to calculate a route. Maximum 4 people/8 points.")
+    return
+  }
   const validPermutations = permutations(poiData).filter(pm => validateRoute(pm));
   console.log(`Valid permutations: ${validPermutations.length}`);
 
@@ -96,6 +100,14 @@ async function findMostEfficientRoute(poiData) {
 
 
 async function plotMostEfficientRoute() {
+  if (poiData.length < 2) {
+    console.warn("Not enough points to calculate a route.");
+    return
+  }
+  if (poiData.length > 8) {
+    alert("Too many points to calculate a route. Maximum 4 people/8 points.")
+    return 
+  }
   let bestRoute = await findMostEfficientRoute(poiData)
   let coords = lonLatToCoords(bestRoute.features[0].geometry.coordinates);
   if (route) {
